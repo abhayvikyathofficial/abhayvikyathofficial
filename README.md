@@ -42,5 +42,5 @@
 📩 **abhayvikyathofficial@gmail.com**
 
 <p align="center">
-  <img src="https://komarev.com/ghpvc/?username=abhayvikyathofficial&label=Profile+Views&color=black&style=flat" alt="Profile views">
+  <img src="https://komarev.com/ghpvc/?username=abhayvikyathofficial&label=Profile+Views&color=0D1117&style=flat" alt="Profile views">
 </p>
