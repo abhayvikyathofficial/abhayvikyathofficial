@@ -1,0 +1,78 @@
+name: Generate contribution snake
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate snake SVGs
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-snake.svg?color_snake=#0891B2&color_dots=#EBEDF0,#DDD6FE,#C4B5FD,#8B5CF6,#7C3AED
+            dist/github-snake-dark.svg?color_snake=#22D3EE&color_dots=#2d3343,#3B2F6B,#5B44A8,#7C5FD6,#A78BFA
+
+      - name: Add labels
+        env:
+          GH_USER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sudo chown -R "$(id -u)" dist
+          python3 snake/annotate_snake.py dist/github-snake.svg light dist/github-snake-dark.svg dark
+
+      - name: Push to output branch
+        uses: crazy-max/ghaction-github-pages@v3.1.0
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  tooltip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update contribution count
+        env:
+          GH_USER: ${{ github.repository_owner }}
+        shell: python
+        run: |
+          import re, subprocess, urllib.request
+
+          url = f"https://github.com/users/{__import__('os').environ['GH_USER']}/contributions"
+          html = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"}), timeout=30).read().decode()
+          text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
+          m = re.search(r"([\d,]+)\s+contributions?\s+in the last year", text)
+          if not m:
+              print("count not found, leaving README unchanged")
+              raise SystemExit(0)
+          count = m.group(1)
+
+          readme = open("README.md", encoding="utf-8").read()
+          updated = re.sub(r'title="[\d,]+ contributions? in the last year', f'title="{count} contributions in the last year', readme)
+          if updated == readme:
+              print(f"count unchanged ({count})")
+              raise SystemExit(0)
+          open("README.md", "w", encoding="utf-8").write(updated)
+
+          run = lambda *a: subprocess.run(a, check=True)
+          run("git", "config", "user.name", "github-actions[bot]")
+          run("git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com")
+          run("git", "commit", "-am", f"Update snake tooltip: {count} contributions [skip ci]")
+          run("git", "push")
