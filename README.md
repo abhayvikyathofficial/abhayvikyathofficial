@@ -29,7 +29,7 @@
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abhayvikyathofficial/abhayvikyathofficial/output/github-snake-dark.svg">
-  <img alt="Contribution snake" title="104 contributions in the last year · hover the graph below for daily counts" width="100%" src="https://raw.githubusercontent.com/abhayvikyathofficial/abhayvikyathofficial/output/github-snake.svg">
+  <img alt="Contribution snake" title="125 contributions in the last year · hover the graph below for daily counts" width="100%" src="https://raw.githubusercontent.com/abhayvikyathofficial/abhayvikyathofficial/output/github-snake.svg">
 </picture>
 </p>
 
