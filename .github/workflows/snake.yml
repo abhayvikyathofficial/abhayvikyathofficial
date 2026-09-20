@@ -2,7 +2,7 @@ name: Generate contribution snake
 
 on:
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "0 */6 * * *"
   workflow_dispatch:
   push:
     branches:
@@ -33,6 +33,13 @@ jobs:
         run: |
           sudo chown -R "$(id -u)" dist
           python3 snake/annotate_snake.py dist/github-snake.svg light dist/github-snake-dark.svg dark
+
+      - name: Generate streak card
+        env:
+          GH_USER: ${{ github.repository_owner }}
+          # "days" = +1 for every day with a contribution; "commits" = +1 per contribution.
+          STREAK_MODE: days
+        run: python3 streak/generate_streak.py dist
 
       - name: Push to output branch
         uses: crazy-max/ghaction-github-pages@v3.1.0

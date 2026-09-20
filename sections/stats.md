@@ -1,8 +1,8 @@
 <!-- stats -->
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://streak-stats.demolab.com?user=abhayvikyathofficial&amp;background=0A101F&amp;border=1E293B&amp;stroke=1E293B&amp;ring=A78BFA&amp;fire=10B981&amp;currStreakNum=E2E8F0&amp;sideNums=E2E8F0&amp;currStreakLabel=22D3EE&amp;sideLabels=22D3EE&amp;dates=94A3B8">
-  <img alt="GitHub contribution streak" width="100%" src="https://streak-stats.demolab.com?user=abhayvikyathofficial&amp;background=FFFFFF&amp;border=E2E8F0&amp;stroke=E2E8F0&amp;ring=7C3AED&amp;fire=10B981&amp;currStreakNum=0F172A&amp;sideNums=0F172A&amp;currStreakLabel=0891B2&amp;sideLabels=0891B2&amp;dates=64748B">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abhayvikyathofficial/abhayvikyathofficial/output/streak-stats-dark.svg">
+  <img alt="GitHub contribution streak" width="100%" src="https://raw.githubusercontent.com/abhayvikyathofficial/abhayvikyathofficial/output/streak-stats.svg">
 </picture>
 </p>
 
