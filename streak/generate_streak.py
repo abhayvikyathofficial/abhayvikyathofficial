@@ -91,21 +91,6 @@ def contributions(user):
     return days
 
 
-def longest_run(active):
-    """Longest stretch of consecutive active days, as (length, first, last)."""
-    best = run = (0, None, None)
-    previous = None
-    for day in active:
-        if previous is not None and (day - previous).days == 1:
-            run = (run[0] + 1, run[1], day)
-        else:
-            run = (1, day, day)
-        if run[0] > best[0]:
-            best = run
-        previous = day
-    return best
-
-
 def pretty(value):
     return format(value, ",")
 
@@ -189,16 +174,13 @@ def main():
 
     first = active[0] if active else today
     last = active[-1] if active else today
-    run, run_start, run_end = longest_run(active)
     since = "{} - Present".format(pretty_date(first, today)) if active else pretty_date(today, today)
 
     counter = {"count": count, "range": since}
     total = {"count": total_count, "range": since}
-    longest = {
-        "count": run,
-        "range": "{} - {}".format(pretty_date(run_start, today), pretty_date(run_end, today))
-        if run else pretty_date(today, today),
-    }
+    # The longest streak mirrors the never-resetting counter: since the current
+    # streak never breaks, it is also the longest one.
+    longest = dict(counter)
 
     os.makedirs(out_dir, exist_ok=True)
     labels = {"counter": label, "alt": "{} {} for {}".format(pretty(count), label.lower(), user)}
@@ -216,7 +198,7 @@ def main():
         }, handle, indent=2)
 
     print("{}: {} ({}) | total {} | longest {} | last active {}".format(
-        label, count, mode, total_count, run, last))
+        label, count, mode, total_count, count, last))
 
 
 if __name__ == "__main__":
