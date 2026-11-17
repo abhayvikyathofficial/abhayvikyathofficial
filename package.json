@@ -1,0 +1,12 @@
+{
+  "name": "abhayvikyathofficial-profile",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "opentype.js": "1.3.4",
+    "simple-icons": "^16.38.0"
+  }
+}
